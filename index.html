@@ -91,16 +91,11 @@
         let bgMusic = new Audio(MUSIC_URL);
         bgMusic.loop = true; bgMusic.volume = 1.0;
 
-                const loader = new THREE.TextureLoader();
+        const loader = new THREE.TextureLoader();
         const photoFiles = ['./image1.jpg', './image2.jpg', './image3.jpg', './image4.jpg', './image5.jpg'];
         const photoTextures = [];
-        photoFiles.forEach((f, i) => {
-            const texture = loader.load(f);
-            // Cắt ảnh từ giữa thay vì resize
-            texture.matrixAutoUpdate = false;
-            texture.center.set(0.5, 0.5);
-            photoTextures[i] = texture;
-        });
+        photoFiles.forEach((f, i) => photoTextures[i] = loader.load(f));
+
         function createCustomTexture(type) {
             const canvas = document.createElement('canvas');
             canvas.width = 128; canvas.height = 128;
@@ -271,33 +266,13 @@
             return points;
         }
 
-               function createPhotos() {
+        function createPhotos() {
             const geo = new THREE.PlaneGeometry(8, 8);
             const borderGeo = new THREE.PlaneGeometry(9, 9); 
             const borderMat = new THREE.MeshBasicMaterial({ color: 0xFFD700 }); 
 
             for(let i=0; i<5; i++) {
-                const texture = photoTextures[i];
-                // Cắt ảnh cover mode
-                const img = texture.image;
-                if (img) {
-                    const aspect = img.width / img.height;
-                    const planeAspect = 1.0; // 8x8 = 1:1
-                    
-                    if (aspect > planeAspect) {
-                        // Ảnh rộng hơn - cắt ngang
-                        texture.repeat.x = planeAspect / aspect;
-                        texture.repeat.y = 1;
-                    } else {
-                        // Ảnh cao hơn - cắt dọc
-                        texture.repeat.x = 1;
-                        texture.repeat.y = aspect / planeAspect;
-                    }
-                    texture.offset.x = (1 - texture.repeat.x) / 2;
-                    texture.offset.y = (1 - texture.repeat.y) / 2;
-                }
-                
-                const mat = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
+                const mat = new THREE.MeshBasicMaterial({ map: photoTextures[i], side: THREE.DoubleSide });
                 const mesh = new THREE.Mesh(geo, mat);
                 const border = new THREE.Mesh(borderGeo, borderMat);
                 border.position.z = -0.1; 
