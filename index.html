@@ -105,8 +105,8 @@
             if (type === 'gold_glow') {
                 const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, 40);
                 grd.addColorStop(0, '#FFFFFF'); 
-                grd.addColorStop(0.2, '#FFFFE0'); 
-                grd.addColorStop(0.5, '#FFD700');
+                grd.addColorStop(0.2, '#E0FFE0'); 
+                grd.addColorStop(0.5, '#00FF00');
                 grd.addColorStop(1, 'rgba(0,0,0,0)');
                 ctx.fillStyle = grd; ctx.fillRect(0,0,128,128);
 
@@ -389,7 +389,7 @@
             } else {
                 // EXPLODE
                 group.scale.set(1,1,1);
-                group.rotation.y += (handRotY - group.rotation.y) * 0.1;
+                group.rotation.y += (handRotY - group.rotation.y) * 0.6;
 
                 // size, color
                 for(let i=0; i<count; i++) {
